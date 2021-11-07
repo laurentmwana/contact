@@ -1,0 +1,19 @@
+{
+    "name": "acer/contact",
+    "autoload": {
+        "psr-4": {
+            "Framework\\": "src/Framework",
+            "Tests\\": "Tests"
+        }
+    },
+    "authors": [
+        {
+            "name": "laurentmwana",
+            "email": "71385723+laurentmwana@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit": "^9.5",
+        "symfony/var-dumper": "^5.3"
+    }
+}
