@@ -42,12 +42,13 @@ class Renderer
     {
         $paths = $this->namespace . str_replace('@', DIRECTORY_SEPARATOR , $path);
         ob_start();
-        require $paths . '.php';
         if (!is_null($params)) {
             extract($params);
         }
-
         extract($this->Globals);
+        
+        require $paths . '.php';
+        
 
         $content = ob_get_clean();
         require $this->namespace . 'layout' .  DIRECTORY_SEPARATOR .  $template . '.php';

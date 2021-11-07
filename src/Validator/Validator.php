@@ -1,9 +1,9 @@
 <?php
 
-namespace Framework\Validator;
+namespace Validator;
 
 use Framework\Exceptions\ValidatorException;
-use Framework\interfaces\Forms\interfaceValidator;
+use Framework\interfaces\interfaceValidator;
 
 /**
  * Validation des informations poster par l'utilisateur 
@@ -57,8 +57,6 @@ class Validator  implements interfaceValidator
             $this->strlen($key , $cond1 ,$cond2);
         } elseif ($action === 'regex' && (!is_null($cond1) && is_null($cond2))) {
             $this->regex($key , $cond1);
-        } elseif ($action === 'selected' && (!is_null($cond1) && !is_null($cond2))) {
-            $this->selected($key , $cond1 , $cond2);
         }
 
         return $this;
@@ -134,43 +132,6 @@ class Validator  implements interfaceValidator
             $this->errors[$key] = $value;
         }
     }
-
-
-    /**
-     * Vérifie que les valeurs dans le tab {$values} correspond avec celle que l'user va saisir 
-     * @param mixed $key
-     * @param mixed $values
-     * @param mixed $index
-     * 
-     * @return void
-     */
-    private function selected ($key , $values , $index): void
-    {
-        $fields = $this->fields($key);
-        if (is_array($values) && !empty($values) && !empty($fields)){
-            $match = false;
-            foreach ($values as $value) {
-                foreach ($value as $keys => $field) {
-                    if ($keys === $index) {
-                        if ($fields == $value->$index) {
-                            $match = true;
-                            break;
-                        } 
-                    }
-                }
-            }
-            
-            if ($match === false) {
-                if (isset($this->label['selected'][$key]) && !empty($this->label['selected'][$key])) {
-                    $value = $this->label['selected'][$key];
-                } else {
-                    $value = "{$fields} c'est n'est pas la vrai valeur";
-                }
-                $this->errors[$key] = $value;
-            }
-        }
-    }
-
 
     /**
      * Les nombres min de caratère en max de caratère 

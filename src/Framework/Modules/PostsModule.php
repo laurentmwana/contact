@@ -2,6 +2,7 @@
 
 namespace Framework\Modules;
 
+use Controller\Forms\contactForm;
 
 class PostsModule
 {
@@ -17,6 +18,11 @@ class PostsModule
     private $renderer;
 
     /**
+     * @var \Controller\Contact
+     */
+    private $contact;
+
+    /**
      * @param \Framework\Router\Router $route
      * @param \Framework\Renderer $renderer
      */
@@ -27,6 +33,7 @@ class PostsModule
         
         $this->route = $route; 
         $this->renderer = $renderer;
+        $this->contact = new \Controller\Contact(new \Posts\Posts);
     }
 
     /**
@@ -34,6 +41,7 @@ class PostsModule
      */
     public function contact ()
     {
-        return $this->renderer->render('post@contact');
+        $posts = $this->contact->send();
+        return $this->renderer->render('post@contact', "layout" , compact('posts'));
     }
 }

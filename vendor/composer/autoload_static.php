@@ -24,9 +24,9 @@ class ComposerStaticInit40719817dc02234dab26340ff0b27b69
         array (
             'Webmozart\\Assert\\' => 17,
         ),
-        'T' => 
+        'V' => 
         array (
-            'Tests\\' => 6,
+            'Validator\\' => 10,
         ),
         'S' => 
         array (
@@ -38,16 +38,26 @@ class ComposerStaticInit40719817dc02234dab26340ff0b27b69
         'P' => 
         array (
             'Prophecy\\' => 9,
+            'Posts\\' => 6,
             'PhpParser\\' => 10,
+        ),
+        'H' => 
+        array (
+            'HTML\\' => 5,
         ),
         'F' => 
         array (
             'Framework\\' => 10,
+            'Flash\\' => 6,
         ),
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
             'DeepCopy\\' => 9,
+        ),
+        'C' => 
+        array (
+            'Controller\\' => 11,
         ),
     );
 
@@ -62,9 +72,9 @@ class ComposerStaticInit40719817dc02234dab26340ff0b27b69
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
         ),
-        'Tests\\' => 
+        'Validator\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/Tests',
+            0 => __DIR__ . '/../..' . '/src/Validator',
         ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (
@@ -86,13 +96,25 @@ class ComposerStaticInit40719817dc02234dab26340ff0b27b69
         array (
             0 => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy',
         ),
+        'Posts\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Posts',
+        ),
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
+        'HTML\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/HTML',
+        ),
         'Framework\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/Framework',
+        ),
+        'Flash\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Flash',
         ),
         'Doctrine\\Instantiator\\' => 
         array (
@@ -101,6 +123,10 @@ class ComposerStaticInit40719817dc02234dab26340ff0b27b69
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
+        ),
+        'Controller\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Controller',
         ),
     );
 

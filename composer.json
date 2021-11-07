@@ -3,7 +3,12 @@
     "autoload": {
         "psr-4": {
             "Framework\\": "src/Framework",
-            "Tests\\": "Tests"
+            "HTML\\": "src/HTML",
+            "Controller\\": "src/Controller",
+            "Flash\\": "src/Flash",
+            "Posts\\": "src/Posts",
+            "Validator\\": "src/Validator"
+
         }
     },
     "authors": [
