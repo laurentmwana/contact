@@ -28,6 +28,10 @@ class ComposerStaticInit40719817dc02234dab26340ff0b27b69
         array (
             'Validator\\' => 10,
         ),
+        'T' => 
+        array (
+            'Tests\\' => 6,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
@@ -75,6 +79,10 @@ class ComposerStaticInit40719817dc02234dab26340ff0b27b69
         'Validator\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/Validator',
+        ),
+        'Tests\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Tests',
         ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (

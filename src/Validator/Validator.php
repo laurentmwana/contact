@@ -57,7 +57,12 @@ class Validator  implements interfaceValidator
             $this->strlen($key , $cond1 ,$cond2);
         } elseif ($action === 'regex' && (!is_null($cond1) && is_null($cond2))) {
             $this->regex($key , $cond1);
+        } elseif ($action === 'bools' && (!is_null($cond1) && !is_null($cond2))) {
+            $this->bools($key , $cond1, $cond2);
+        } elseif ($action === 'write' && (!is_null($cond1) && is_null($cond2))) {
+            $this->write($key , $cond1);
         }
+
 
         return $this;
     }
@@ -113,6 +118,42 @@ class Validator  implements interfaceValidator
     }
 
     /**
+     * @param string $key
+     * @param string $one
+     * @param string $two
+     * 
+     * @return void
+     */
+    private function bools (string $key , string $one ,string  $two): void
+    {
+        if ($one != $two) {
+            if (isset($this->label['bools'][$key]) && !empty($this->label['bools'][$key])) {
+                $value = $this->label['bools'][$key];
+            } else {
+                $value = "{$key} invalide";
+            }
+            $this->errors[$key] = $value;
+        }
+    }
+
+  
+    /**
+     * @param mixed $key
+     * @param null $value
+     * 
+     * @return void
+     */
+    private function write ($key , $value = null): void
+    {
+        if (is_null($value)) {
+            $values = "Reponse incorrecte";
+        } else {
+            $values = $value;
+        }
+        $this->errors[$key] = $values;
+    }
+
+    /**
      * Vérifie que l'email est bonne en format (exemple@email.fr)
      * @param mixed $key
      * 
@@ -120,17 +161,23 @@ class Validator  implements interfaceValidator
      */
     private function email ($key) : void
     {
-        $value = $this->fields($key);
-        if (!filter_var($value , FILTER_VALIDATE_EMAIL)) {
-            
-            if (isset($this->label['email'][$key]) && !empty($this->label['email'][$key])) {
-                $value = $this->label['email'][$key];
-            } else {
-                $value = "{$key} n'est pas un e-mail";
+        try {
+            $value = $this->fields($key);
+            if (!filter_var($value , FILTER_VALIDATE_EMAIL)) {
+                
+                if (isset($this->label['email'][$key]) && !empty($this->label['email'][$key])) {
+                    $value = $this->label['email'][$key];
+                } else {
+                    $value = "{$key} n'est pas un e-mail";
+                }
+    
+                $this->errors[$key] = $value;
             }
-
-            $this->errors[$key] = $value;
+        } catch (\Throwable $th) {
+            \Flash\SessionMessage::getSession()->write("danger", "Vous ne pouvez pas modifier le  nom du champs {$key} ");
+            \Controller\Helpers::header("/post/contact");
         }
+       
     }
 
     /**
@@ -143,17 +190,23 @@ class Validator  implements interfaceValidator
      */
     private function strlen ($key , $max , $min): void
     {
-        $value = mb_strlen($this->fields($key));
-        if ($value < $min || $value > $max) {
-           
-            if (isset($this->label['strlen'][$key]) && !empty($this->label['strlen'][$key])) {
-                $value = $this->label['strlen'][$key];
-            } else {
-                $value = "{$key} doit avoir au moins {$min} caratère ";
-            }
+        try {
+            $value = mb_strlen($this->fields($key));
+            if ($value < $min || $value > $max) {
+            
+                if (isset($this->label['strlen'][$key]) && !empty($this->label['strlen'][$key])) {
+                    $value = $this->label['strlen'][$key];
+                } else {
+                    $value = "{$key} doit avoir au moins {$min} caratère ";
+                }
 
-            $this->errors[$key] = $value;
-        }  
+                $this->errors[$key] = $value;
+            }  
+        } catch (\Throwable $th) {
+            \Flash\SessionMessage::getSession()->write("danger", "Vous ne pouvez pas modifier le  nom du champs {$key} ");
+            \Controller\Helpers::header("/post/contact");
+        }
+        
     }
 
     /**
@@ -165,16 +218,25 @@ class Validator  implements interfaceValidator
      */
     private function regex (string $key , ?string $pattern = null): void
     {
-        $value = $this->fields($key);
-        if (!preg_match($pattern , $value) && !is_null($pattern)) {
-            if (isset($this->label['regex'][$key]) && !empty($this->label['regex'][$key])) {
-                $value = $this->label['regex'][$key];
-            } else {
-                $value = "{$key} n'est pas valide";
-            }
+        try {
+            $value = $this->fields($key);
+            if (!preg_match($pattern , $value) && !is_null($pattern)) {
+                if (isset($this->label['regex'][$key]) && !empty($this->label['regex'][$key])) {
+                    $value = $this->label['regex'][$key];
+                } else {
+                    $value = "{$key} n'est pas valide";
+                }
 
-            $this->errors[$key] = $value;
+                $this->errors[$key] = $value;
+            }
+        } catch (\Throwable $th) {
+            \Flash\SessionMessage::getSession()->write("danger", "Vous ne pouvez pas modifier le  nom du champs {$key} ");
+            \Controller\Helpers::header("/post/contact");
+
         }
+
+
+        
     }
 
     /**
@@ -203,7 +265,6 @@ class Validator  implements interfaceValidator
             }
 
             throw new ValidatorException("La clé {$key} n'est pas définie");
-
         }
 
         return null;

@@ -28,6 +28,11 @@ class Posts implements interfacePost
     private $mail;
 
     /**
+     * @var string
+     */
+    private $question;
+
+    /**
      * @return string
      */
     public function getName(): string
@@ -99,5 +104,23 @@ class Posts implements interfacePost
     public function setMessage(string $message): void
     {
         $this->message = $message;
+    }
+
+    /**
+     * @return string
+     */
+    public function getQuestion(): string
+    {
+        return $this->question;
+    }
+
+    /**
+     * @param string $question
+     * 
+     * @return void
+     */
+    public function setQuestion(string $question): void
+    {
+        $this->question = $question;
     }
 }

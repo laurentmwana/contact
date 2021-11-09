@@ -5,12 +5,12 @@ namespace Controller;
 class Contact
 {
     /**
-     * @var \Controller\Post
+     * @var \Posts\Posts
      */
     private $posts;
 
     /**
-     * @param \Controller\Post $posts
+     * @param \Posts\Posts $posts
      */
     public function __construct(\Posts\Posts $posts)
     {
@@ -24,6 +24,7 @@ class Contact
     public function send (): array
     {
         if (isset($_POST['send'])) {
+            
             $v = new \Validator\Validator($_POST);
             $v->labels([
                 'required' => [
@@ -59,11 +60,43 @@ class Contact
             $v->rule('required' , 'mail');
             $v->rule('required' , 'message');
 
+
+           
+
             if ($v->validate()) {
+
+                $c = new \Controller\Cache(dirname(__DIR__) . DIRECTORY_SEPARATOR . "cache");
+                $key = $c->explodes()[0];
+                $response = $c->response($key);
+
+                try {
+                    $this->posts->setQuestion($_POST['question']);
+                    $this->posts->setName($_POST['name']);
+                    $this->posts->setSujet($_POST['sujet']);
+                    $this->posts->setMail($_POST['mail']);
+                    $this->posts->setMessage($_POST['message']);
+                }catch (\TypeError $th) {
+                    \Flash\SessionMessage::getSession()->write("warning", "La clé du formulaire ne peut pas etre modifier ou supprimer");
+                    \Controller\Helpers::header("/post/contact");
+
+                } 
                 
+
+                if ($response ===  $this->posts->getQuestion()) {
+                    
+                    $my = "laurentmwn@contact.com";
+                    $mail = mail($my, $this->posts->getSujet(),"email : "  . $this->posts->getMail() . PHP_EOL . $this->posts->getMessage());
+                    if ($mail === true) {
+                        $c->delete();
+                    }
+                } else {
+                    $v->rule('write','question' , "{$this->posts->getQuestion()} n'est pas la bonne réponse");
+                    return $v->getErrors();
+                }
             }
 
             return $v->getErrors();
+
         }
 
         return [];

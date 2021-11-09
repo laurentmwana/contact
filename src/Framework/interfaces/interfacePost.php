@@ -59,5 +59,17 @@ interface InterfacePost
      */
     public function setSujet (string $sujet): void;
 
+     /**
+     * @return string
+     */
+    public function getQuestion (): string;
+
+    /**
+     * @param string $question
+     * 
+     * @return void
+     */
+    public function setQuestion (string $question): void;
+
     
 }

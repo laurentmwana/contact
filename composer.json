@@ -7,7 +7,8 @@
             "Controller\\": "src/Controller",
             "Flash\\": "src/Flash",
             "Posts\\": "src/Posts",
-            "Validator\\": "src/Validator"
+            "Validator\\": "src/Validator",
+            "Tests\\": "Tests"
 
         }
     },

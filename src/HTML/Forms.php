@@ -50,11 +50,12 @@ class Forms
     public function form (string $form , string $key , $value = '' , $cols = 'col-md-12' , string $generate = '')
     {
         if (strstr($form , 'input:')) {
-           $type  = explode(':' , $form)[1];
-           return $this->input($key , $value , $type , $cols);
+            $type  = explode(':' , $form)[1];
+            return $this->input($key , $value , $type , $cols);
         } elseif ($form === 'textarea') {
             return $this->textarea($key , $value , $cols);
-         }
+        }
+        
     }
 
     /**
@@ -65,7 +66,7 @@ class Forms
      * 
      * @return string
      */
-    private function input($key , $value = '' , $type = 'text' ,  $cols): string
+    private function input($key , $value = '' , $type = 'text' ,  $cols = "col-md-12"): string
     {
         $label = isset($this->label[$key])  ? $this->label[$key] : $key;
         [$class , $feedback, $values] = $this->feedback($key , $value);
@@ -156,7 +157,7 @@ HTML;
 
         $class = 'form-control';
         $feedback = "";
-        if (isset($this->errors[$key])) {
+        if (!empty($this->errors[$key])) {
             $error = $this->errors[$key];
             $errors = implode('<br>' , [$error]);
             $class .= ' is-invalid';
