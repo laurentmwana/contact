@@ -57,8 +57,8 @@ class Validator  implements interfaceValidator
             $this->strlen($key , $cond1 ,$cond2);
         } elseif ($action === 'regex' && (!is_null($cond1) && is_null($cond2))) {
             $this->regex($key , $cond1);
-        } elseif ($action === 'bools' && (!is_null($cond1) && !is_null($cond2))) {
-            $this->bools($key , $cond1, $cond2);
+        } elseif ($action === 'bool' && (!is_null($cond1) && !is_null($cond2))) {
+            $this->bool($key , $cond1, $cond2);
         } elseif ($action === 'write' && (!is_null($cond1) && is_null($cond2))) {
             $this->write($key , $cond1);
         }
@@ -124,9 +124,9 @@ class Validator  implements interfaceValidator
      * 
      * @return void
      */
-    private function bools (string $key , string $one ,string  $two): void
+    private function bool (string $key , string $expected ,string  $expected2): void
     {
-        if ($one != $two) {
+        if (!($expected === $expected2 )) {
             if (isset($this->label['bools'][$key]) && !empty($this->label['bools'][$key])) {
                 $value = $this->label['bools'][$key];
             } else {

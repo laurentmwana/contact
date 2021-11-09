@@ -8,14 +8,19 @@ define("SCRIPTS", dirname($_SERVER['SCRIPT_NAME']) . DIRECTORY_SEPARATOR . 'asse
 // initialisation du renderer pour charge les fichiers
 $renderer = new \Framework\Renderer(NAMESPACES);
 
-// initialisation de l'app
-$app = new \Framework\App([
+try {
+  // initialisation de l'app
+  $app = new \Framework\App([
     \Framework\Modules\BlogModule::class,
     \Framework\Modules\PostsModule::class
-],
-[
+  ],
+  [
   'renderer' => $renderer  
-]);
+  ]);
+  // démarrage de l'app
+  $app->start($_GET['url']);
 
-// démarrage de l'app
-$app->start($_GET['url']);
+} catch (\Framework\Exceptions\RouteException $e) {
+  $e->notfound($e->getMessage());
+}
+

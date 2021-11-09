@@ -48,10 +48,14 @@ class Cache implements interfaceCache
      * 
      * @return string
      */
-    public static function get (): string
+    public  function get (): string
     {
-        $file = file_get_contents(self::$path);
-        return explode(':', $file)[1];
+        if (file_exists(self::$path)) {
+            $file = file_get_contents(self::$path);
+            return explode(':', $file)[1];
+        } else {
+            $this->set();
+        }
     }
     
     /**
@@ -131,8 +135,14 @@ class Cache implements interfaceCache
         return explode(':', $value);
     }
 
+    /**
+     * @return string
+     */
     private function getValue (): string
     {
+        if (!file_exists(self::$path)) {
+            $this->set();
+        } 
         return file_get_contents(self::$path);
     }
 

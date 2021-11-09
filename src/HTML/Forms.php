@@ -34,24 +34,22 @@ class Forms
     {
         $this->errors = $errors;
         $this->posts = $posts;
-
     }
 
 
     /**
      * @param string $form
      * @param string $key
-     * @param null $value
      * @param string $cols
-     * @param string $generate
+     * @param string $value
      * 
      * @return mixed
      */
-    public function form (string $form , string $key , $value = '' , $cols = 'col-md-12' , string $generate = '')
+    public function form (string $form , string $key ,  $cols = 'col-md-12' , string $value = '')
     {
         if (strstr($form , 'input:')) {
             $type  = explode(':' , $form)[1];
-            return $this->input($key , $value , $type , $cols);
+            return $this->input($key , $type , $cols);
         } elseif ($form === 'textarea') {
             return $this->textarea($key , $value , $cols);
         }
@@ -66,10 +64,10 @@ class Forms
      * 
      * @return string
      */
-    private function input($key , $value = '' , $type = 'text' ,  $cols = "col-md-12"): string
+    private function input($key , $type = 'text' ,  $cols = "col-md-12"): string
     {
         $label = isset($this->label[$key])  ? $this->label[$key] : $key;
-        [$class , $feedback, $values] = $this->feedback($key , $value);
+        [$class , $feedback, $values] = $this->feedback($key);
         return <<<HTML
         <div class="form-group mb-3 {$cols}">
             <label for="{$key}"  class="form-label">{$label}</label>
@@ -87,10 +85,10 @@ HTML;
      * 
      * @return string
      */
-    public function textarea ($key , $value , $cols): string
+    public function textarea ($key , $value = '' , $cols = 'col-md-12'): string
     {
         $label = isset($this->label[$key])  ? $this->label[$key] : $key;
-        [$class , $feedback , $values] = $this->feedback($key , $value);
+        [$class , $feedback , $values] = $this->feedback($key);
         return <<< HTML
         <div class="form-group mb-3 {$cols}">
             <label for="{$key}"  class="form-label">{$label}</label>
@@ -141,6 +139,17 @@ HTML;
         return null;
     }
 
+    /**
+     * @param mixed $key
+     * @param mixed $value
+     * 
+     * @return void
+     */
+    private function setValue ($key , $value): void
+    {
+        $this->posts[$key] = $value;
+    }
+
 
     /**
      * @param mixed $key
@@ -148,30 +157,33 @@ HTML;
      * 
      * @return array
      */
-    private function feedback ($key , $value): array
+    private function feedback ($key): ?array
     {
-        $values = $this->getValue($key);
-        if ((!empty($value) && empty($this->posts))) {
-            $values = $value;
-        }
-
+        $values = '';
         $class = 'form-control';
         $feedback = "";
-        if (!empty($this->errors[$key])) {
+
+        if (isset($this->errors[$key])) {
             $error = $this->errors[$key];
             $errors = implode('<br>' , [$error]);
             $class .= ' is-invalid';
             $feedback .= "<div class='invalid-feedback'><em>{$errors} </em></div>";
+            $values .= $this->getValue($key);
+
+            return [$class , $feedback , $values];
         } else {
             if (!isset($this->errors[$key]) && !empty($this->getValue($key))) {
                 $valid = "champs valide";
                 $errors = implode('<br>' , [$valid]);
                 $class .= ' is-valid';
                 $feedback .= "<div class='valid-feedback'><em>{$errors} </em></div>";
+                $values .= $this->getValue($key);
+
+                return [$class, $feedback , $values];
             }
         }
-        
-        return [$class , $feedback , $values];
+
+        return [$class, null, null];
     }
 
 

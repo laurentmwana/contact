@@ -8,7 +8,7 @@ interface interfaceCache
      * 
      * @return string
      */
-    public static function get (): string;
+    public function get (): string;
 
 
 

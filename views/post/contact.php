@@ -9,6 +9,7 @@ $c = new \Controller\Cache(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'sr
 $c->set();
 $key = $c->explodes()[0];
 $question = $c->question($key); 
+$_POST = null;
 
 ?>
 
@@ -41,11 +42,12 @@ $question = $c->question($key);
                 <div class="card-body">
                 <form action="" method="POST">
                     <div class="row">
+                    
                     <?= $forms->label('sujet', "La raison de votre message :")?>
-                    <?= $forms->form('input:text', 'sujet', '' , 'col-md-6') ?>
+                    <?= $forms->form('input:text', 'sujet', 'col-md-6') ?>
 
                     <?= $forms->label('name', "Entrez votre nom : ")?>
-                    <?= $forms->form('input:text', 'name', '' , 'col-md-6') ?>
+                    <?= $forms->form('input:text', 'name', 'col-md-6') ?>
                     </div>
                    
 
